@@ -39,14 +39,16 @@ def create_pixelart(image_path, output_path, width=None, height=None, resolution
             target_size=(width, height)
         elif width and height == None:
             # scale with given width
-            wpercent = (width / float(img.size[0]))
-            hsize = int((float(img.size[1]) * float(wpercent)))
-            target_size = img.size
+            w, h = img.size
+            ratio = w/h
+            height = int(h*ratio)
+            target_size = (width, height)
         elif width == None and height:
             # scale with given height
-            hpercent = (height / float(img.size[1]))
-            wsize = int((float(img.size[0]) * float(hpercent)))
-            target_size = img.size
+            w, h = img.size
+            ratio = w/h
+            width = int(w*ratio)
+            target_size = (width, height)
         else:
             target_size = (150, 150)
         
