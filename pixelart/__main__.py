@@ -172,7 +172,7 @@ def parse_arguments():
     return cliArgs
     
 
-if __name__ == "__main__":
+def main():
     cliArgs = parse_arguments()
     
     if os.path.exists(cliArgs.output):
@@ -189,3 +189,7 @@ if __name__ == "__main__":
         cliArgs.resolution,
         cliArgs.colorcount
     )
+    
+    
+if __name__ == "__main__":
+    main()
