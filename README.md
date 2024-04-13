@@ -1,5 +1,7 @@
 # pixelart
-Converts given images into pixelart-styled images with given resolution, size and colorpalettes.
+Simple script that converts given images into pixelart-styled images with given resolution, size and colorpalettes to create gadgets for games, animations and more!
+
+![alt text](./readme/showcase.png "Create game-gadgets from other images")
 
 ## info
 tested on linux only.
