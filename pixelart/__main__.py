@@ -11,47 +11,10 @@ import os
 import cv2
 import numpy as np
 
-def create_pixelart(image_path, output_path, width=None, height=None, resolution=48, colorcount=16):
-    """
-    Creates a pixel art image from the input image.
-
-    Args:
-        image_path (str): Path to the input image file.
-        output_path (str): Path to save the pixelated image.
-        width (int, optional): Edgelength of resulting image as num of pixels. 
-        height (int, optional): Edgelength of resulting image as num of pixels.
-        resolution (int, optional): Resolution of resulting image.
-        colorcount (int, optional): Count of different colors in resulting image.
-
-    Raises:
-        FileNotFoundError: If the input image file is not found.
-        ValueError: If the input image is not an image file.
-        OSError: If the output file exists and the user does not want to overwrite it.
-
-    Returns:
-        None: None
-    """
+def create_pixelart(image_path, output_path, width=200, height=200, resolution=48, colorcount=16):
     try:
         img = Image.open(image_path)
-        
-        # target-image-resizing
-        if width and height: 
-            target_size=(width, height)
-        elif width and height == None:
-            # scale with given width
-            w, h = img.size
-            ratio = w/h
-            height = int(h*ratio)
-            target_size = (width, height)
-        elif width == None and height:
-            # scale with given height
-            w, h = img.size
-            ratio = w/h
-            width = int(w*ratio)
-            target_size = (width, height)
-        else:
-            target_size = (150, 150)
-        
+        target_size = (width, height)
         # reduce resolution
         # https://stackoverflow.com/questions/62282695/reduce-image-resolution
         img.thumbnail([resolution, resolution])
@@ -143,18 +106,6 @@ def parse_arguments():
         help="Path to save the pixelated image (default: pixelated_image.jpg)"
     )
     
-    parser.add_argument("-wi", "--width",
-        type=int,
-        default=None,
-        help="Width of resulting image as num of pixels"
-    )
-    
-    parser.add_argument("-he", "--height",
-        type=int,
-        default=None,
-        help="Height of resulting image as num of pixels"
-    )
-    
     parser.add_argument("-r", "--resolution",
         type=int,
         default=48,
@@ -164,7 +115,7 @@ def parse_arguments():
     parser.add_argument("-c", "--colorcount",
         type=int,
         default=16,
-        help="Count of different colors in resulting image"
+        help="Maximum number of different colors in resulting image. If source-image contains 128 different colors and --colorcount is 16, the most matching colors will be grouped to target-colors"
     )
 
     argcomplete.autocomplete(parser)
@@ -182,12 +133,10 @@ def main():
             exit(0)
 
     create_pixelart(
-        cliArgs.image_path,
-        cliArgs.output,
-        cliArgs.width,
-        cliArgs.height,
-        cliArgs.resolution,
-        cliArgs.colorcount
+        image_path=cliArgs.image_path,
+        output_path=cliArgs.output,
+        resolution=cliArgs.resolution,
+        colorcount=cliArgs.colorcount
     )
     
     
